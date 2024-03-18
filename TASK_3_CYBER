@@ -1,0 +1,30 @@
+import string 
+
+password = input("Enter password: ")
+
+upper_case = any(c in string.ascii_uppercase for c in password)
+lower_case = any(c in string.ascii_lowercase for c in password)
+special = any(c in string.punctuation for c in password)
+digits = any(c in string.digits for c in password)
+
+character = [upper_case, lower_case, special, digits]
+length = len(password)
+
+with open('10k-most-common.txt', 'r') as f:
+    commonpass = f.read().splitlines()
+
+if password in commonpass:
+    print("Commonly used password, try again! : Complexity score = 0 ")
+    exit()
+
+score = 0 
+if length > 8:
+    score += 1
+    if length > 12:
+        score += 1
+        if length > 20:
+            score += 1
+            if all(character):
+                score += 1
+
+print("Complexity score:", score)
